@@ -17,11 +17,26 @@ const Input = styled.input`
 `;
 
 export default class Search extends Component {
+  state = {
+    query: ''
+  };
+
+  searchLocations = query => {
+    this.setState({ query });
+    console.log(this.state.query);
+  };
+
   render() {
+    const { query } = this.state;
     return (
       <div>
         <Wrapper>
-          <Input type="search" placeholder="Search Location" />
+          <Input
+            onChange={e => this.searchLocations(e.target.value)}
+            type="search"
+            placeholder="Search Location"
+            value={query}
+          />
         </Wrapper>
       </div>
     );
