@@ -21,9 +21,10 @@ export default class Search extends Component {
     query: ''
   };
 
-  searchLocations = query => {
+  searchLocation = query => {
     this.setState({ query });
     console.log(this.state.query);
+    this.props.getLocation(query);
   };
 
   render() {
@@ -32,7 +33,7 @@ export default class Search extends Component {
       <div>
         <Wrapper>
           <Input
-            onChange={e => this.searchLocations(e.target.value)}
+            onChange={e => this.searchLocation(e.target.value)}
             type="search"
             placeholder="Search Location"
             value={query}
