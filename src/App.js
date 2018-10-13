@@ -12,8 +12,19 @@ const Wrapper = styled.div`
 
 class App extends Component {
   state = {
+    locationsData: [],
     location: ''
   };
+
+  componentDidMount() {
+    fetch('locations.json')
+      .then(res => res.json())
+      .then(data =>
+        this.setState({
+          locationsData: data
+        })
+      );
+  }
 
   getLocation = location => {
     this.setState({ location });
@@ -26,7 +37,10 @@ class App extends Component {
         <Wrapper>
           <div>
             <Search getLocation={this.getLocation} />
-            <Locations location={this.state.location} />
+            <Locations
+              allLocations={this.state.locationsData}
+              location={this.state.location}
+            />
           </div>
         </Wrapper>
       </div>

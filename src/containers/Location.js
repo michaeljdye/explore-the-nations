@@ -4,7 +4,7 @@ export default class Location extends Component {
   render() {
     return (
       <div>
-        <p>Location Works!</p>
+        <p>{this.props.location}</p>
       </div>
     );
   }
