@@ -15,10 +15,28 @@ const Wrapper = styled.section`
 `;
 
 export default class Locations extends Component {
+  state = {
+    filteredLocations: []
+  };
+
+  componentWillReceiveProps(nextProps) {
+    let filteredLocations = Object.entries(nextProps.allLocations);
+
+    if (nextProps.location) {
+      filteredLocations = Object.entries(nextProps.allLocations).filter(
+        location =>
+          location[0].toLowerCase().startsWith(nextProps.location.toLowerCase())
+      );
+    }
+
+    this.setState({ filteredLocations });
+  }
+
   render() {
+    console.log(this.state.filteredLocations);
     return (
       <div>
-        {Object.entries(this.props.allLocations).map((location, index) => (
+        {this.state.filteredLocations.map((location, index) => (
           <Wrapper key={index}>
             <p className="location-title">{location[0]}</p>
             <p className="location-address">{location[1].address}</p>

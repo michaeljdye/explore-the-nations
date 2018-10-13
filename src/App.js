@@ -31,6 +31,7 @@ class App extends Component {
   };
 
   render() {
+    console.log(this.state.location);
     return (
       <div className="App">
         <Header />

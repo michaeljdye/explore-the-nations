@@ -23,7 +23,6 @@ export default class Search extends Component {
 
   searchLocation = query => {
     this.setState({ query });
-    console.log(this.state.query);
     this.props.getLocation(query);
   };
 
