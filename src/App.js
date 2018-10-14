@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Search from './containers/Search';
 import styled from 'styled-components';
 import Locations from './containers/Locations';
+import Map from './containers/Map';
 
 const Wrapper = styled.div`
   display: grid;
@@ -43,6 +44,7 @@ class App extends Component {
               location={this.state.location}
             />
           </div>
+          <Map />
         </Wrapper>
       </div>
     );
