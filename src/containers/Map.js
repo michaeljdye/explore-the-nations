@@ -16,10 +16,6 @@ export default class Map extends Component {
     markerPositions: []
   };
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({ markerPositions: nextProps });
-  }
-
   componentDidMount() {
     this.renderMap();
   }
@@ -32,21 +28,33 @@ export default class Map extends Component {
   };
 
   initMap = () => {
-    const mapCenter = { lat: 36.14954, lng: -86.86528 };
+    const mapCenter = { lat: 36.162177, lng: -86.849023 };
     var map = new window.google.maps.Map(
       window.document.getElementById('map'),
       {
         center: mapCenter,
-        zoom: 14
+        zoom: 15
       }
     );
 
-    var marker = new window.google.maps.Marker({
-      position: mapCenter,
-      map: map,
-      title: 'Hello World',
-      animation: window.google.maps.Animation.DROP
+    this.props.venues.map(ven => {
+      const lat = ven.venue.location.lat;
+      const lng = ven.venue.location.lng;
+      const name = ven.venue.name.toString();
+      var marker = new window.google.maps.Marker({
+        position: { lat: lat, lng: lng },
+        map: map,
+        title: name,
+        animation: window.google.maps.Animation.DROP
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+        infoWindow.setContent(name);
+      });
     });
+
+    const infoWindow = new window.google.maps.InfoWindow();
   };
 
   render() {

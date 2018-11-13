@@ -53,7 +53,7 @@ class App extends Component {
             <Search getLocation={this.getLocation} />
             <Locations venue={this.state.venue} venues={this.state.venues} />
           </div>
-          <Map allLocations={this.state.venues} />
+          <Map venue={this.state.venue} venues={this.state.venues} />
         </Wrapper>
       </div>
     );
