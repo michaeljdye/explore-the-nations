@@ -5,6 +5,7 @@ import Search from './containers/Search';
 import styled from 'styled-components';
 import Locations from './containers/Locations';
 import Map from './containers/Map';
+import Axios from 'axios';
 
 const Wrapper = styled.div`
   display: grid;
@@ -13,38 +14,46 @@ const Wrapper = styled.div`
 
 class App extends Component {
   state = {
-    locationsData: [],
-    location: ''
+    venue: '',
+    venues: []
   };
 
   componentDidMount() {
-    fetch('locations.json')
-      .then(res => res.json())
-      .then(data =>
-        this.setState({
-          locationsData: data
-        })
-      );
+    this.getVenues();
   }
 
-  getLocation = location => {
-    this.setState({ location });
+  getVenues = () => {
+    const endpoint = 'https://api.foursquare.com/v2/venues/explore?';
+    const parameters = {
+      client_id: '4YDVSH1N0LJ4OF32W33SCDN2DTJTU1IPVSJ0W1JAZBPYAVBR',
+      client_secret: 'XSDZ20QPDEFL0HZJFNEFK24BYUNSE1I23ZWMOQUNP3A3L1OZ',
+      query: 'food',
+      ll: '36.162177, -86.849023',
+      radius: '500',
+      v: '20181112'
+    };
+
+    Axios.get(endpoint + new URLSearchParams(parameters))
+      .then(res => {
+        this.setState({ venues: res.data.response.groups[0].items });
+      })
+      .catch(err => console.log(err));
+  };
+
+  getLocation = venue => {
+    this.setState({ venue });
   };
 
   render() {
-    console.log(this.state.location);
     return (
       <div className="App">
         <Header />
         <Wrapper>
           <div>
             <Search getLocation={this.getLocation} />
-            <Locations
-              allLocations={this.state.locationsData}
-              location={this.state.location}
-            />
+            <Locations venue={this.state.venue} venues={this.state.venues} />
           </div>
-          <Map />
+          <Map allLocations={this.state.venues} />
         </Wrapper>
       </div>
     );

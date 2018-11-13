@@ -12,6 +12,14 @@ const GoogleMap = styled.div`
 `;
 
 export default class Map extends Component {
+  state = {
+    markerPositions: []
+  };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ markerPositions: nextProps });
+  }
+
   componentDidMount() {
     this.renderMap();
   }
@@ -24,13 +32,21 @@ export default class Map extends Component {
   };
 
   initMap = () => {
+    const mapCenter = { lat: 36.14954, lng: -86.86528 };
     var map = new window.google.maps.Map(
       window.document.getElementById('map'),
       {
-        center: { lat: 36.14954, lng: -86.86528 },
+        center: mapCenter,
         zoom: 14
       }
     );
+
+    var marker = new window.google.maps.Marker({
+      position: mapCenter,
+      map: map,
+      title: 'Hello World',
+      animation: window.google.maps.Animation.DROP
+    });
   };
 
   render() {
