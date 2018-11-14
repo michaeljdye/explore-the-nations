@@ -15,12 +15,17 @@ const Wrapper = styled.div`
 class App extends Component {
   state = {
     venue: '',
-    venues: []
+    venues: [],
+    selectedLocation: {}
   };
 
   componentDidMount() {
     this.getVenues();
   }
+
+  showMarker = (lat, lng) => {
+    this.setState({ selectedLocation: { lat, lng } });
+  };
 
   getVenues = () => {
     const endpoint = 'https://api.foursquare.com/v2/venues/explore?';
@@ -36,6 +41,7 @@ class App extends Component {
     Axios.get(endpoint + new URLSearchParams(parameters))
       .then(res => {
         this.setState({ venues: res.data.response.groups[0].items });
+        console.log(res.data.response.groups[0].items);
       })
       .catch(err => console.log(err));
   };
@@ -51,9 +57,17 @@ class App extends Component {
         <Wrapper>
           <div>
             <Search getLocation={this.getLocation} />
-            <Locations venue={this.state.venue} venues={this.state.venues} />
+            <Locations
+              showMarker={this.showMarker}
+              venue={this.state.venue}
+              venues={this.state.venues}
+            />
           </div>
-          <Map venue={this.state.venue} venues={this.state.venues} />
+          <Map
+            selectedLocation={this.state.selectedLocation}
+            venue={this.state.venue}
+            venues={this.state.venues}
+          />
         </Wrapper>
       </div>
     );

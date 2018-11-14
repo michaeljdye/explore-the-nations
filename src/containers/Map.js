@@ -13,8 +13,31 @@ const GoogleMap = styled.div`
 
 export default class Map extends Component {
   state = {
-    markerPositions: []
+    map: '',
+    markerPositions: [],
+    markersArray: [],
+    markers: []
   };
+
+  componentWillReceiveProps(nextProps) {
+    if (this.state.markers) {
+      this.state.markers.map(marker => {
+        marker.setMap(null);
+      });
+    }
+    if (nextProps.selectedLocation.lat) {
+      const lat = nextProps.selectedLocation.lat;
+      const lng = nextProps.selectedLocation.lng;
+      const position = { lat, lng };
+      const marker = new window.google.maps.Marker({
+        position: position,
+        map: this.state.map,
+        title: 'test',
+        animation: window.google.maps.Animation.DROP
+      });
+      this.setState(state => state.markers.push(marker));
+    }
+  }
 
   componentDidMount() {
     this.renderMap();
@@ -37,6 +60,8 @@ export default class Map extends Component {
       }
     );
 
+    this.setState({ map });
+
     this.props.venues.map(ven => {
       const lat = ven.venue.location.lat;
       const lng = ven.venue.location.lng;
@@ -52,6 +77,8 @@ export default class Map extends Component {
         infoWindow.open(map, marker);
         infoWindow.setContent(name);
       });
+
+      this.setState(state => state.markers.push(marker));
     });
 
     const infoWindow = new window.google.maps.InfoWindow();

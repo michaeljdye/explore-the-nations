@@ -3,14 +3,29 @@ import Location from './Location';
 import styled from 'styled-components';
 
 const Wrapper = styled.section`
-  background: #555;
+  background: #d13e58;
   border-top: 1px solid #fff;
   color: #fff;
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+
+  &:hover {
+    cursor: pointer;
+    background: #af3349;
+  }
 
   .location-title,
   .location-address {
     margin: 0;
     padding: 5px;
+  }
+
+  .location-title {
+    font-weight: 700;
   }
 `;
 
@@ -31,11 +46,20 @@ export default class Locations extends Component {
     this.setState({ filteredVenues: searchedVenue });
   }
 
+  getLatLng = (lat, lng) => {
+    this.props.showMarker(lat, lng);
+  };
+
   render() {
     return (
       <div>
         {this.state.filteredVenues.map((ven, index) => (
-          <Wrapper key={index}>
+          <Wrapper
+            key={index}
+            onClick={() =>
+              this.getLatLng(ven.venue.location.lat, ven.venue.location.lng)
+            }
+          >
             <p className="location-title">{ven.venue.name}</p>
             <p className="location-address">{ven.venue.location.address}</p>
           </Wrapper>

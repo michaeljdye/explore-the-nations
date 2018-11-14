@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   padding: 20px;
-  background: #555;
+  background: #d13e58;
   border-top: 1px solid #fff;
 `;
 
