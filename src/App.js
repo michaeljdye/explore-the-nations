@@ -4,7 +4,6 @@ import Header from './components/Header';
 import Search from './containers/Search';
 import styled from 'styled-components';
 import Locations from './containers/Locations';
-import Map from './containers/Map';
 import Axios from 'axios';
 
 const Wrapper = styled.div`
@@ -12,19 +11,110 @@ const Wrapper = styled.div`
   grid-template-columns: 300px 1fr;
 `;
 
+const Main = styled.main`
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+`;
+
+const GoogleMap = styled.div`
+  height: 100%;
+`;
+
 class App extends Component {
   state = {
     venue: '',
     venues: [],
-    selectedLocation: {}
+    map: '',
+    markers: []
   };
 
   componentDidMount() {
     this.getVenues();
+    this.updateMarkers();
   }
+
+  updateMarkers(lat, lng) {
+    if (this.state.markers) {
+      this.state.markers.map(marker => {
+        marker.setMap(null);
+      });
+    }
+
+    const selectedVenue = this.state.venues.filter(
+      ven => ven.venue.location.lat === lat
+    );
+
+    if (lat) {
+      const position = { lat: lat, lng: lng };
+      const marker = new window.google.maps.Marker({
+        position: position,
+        map: this.state.map,
+        animation: window.google.maps.Animation.DROP
+      });
+
+      const infoWindow = new window.google.maps.InfoWindow();
+
+      const content = `<h2>${selectedVenue[0].venue.name}</h2>
+      <p>${selectedVenue[0].venue.location.address || ''}</p>`;
+
+      marker.addListener('click', () => {
+        infoWindow.open(this.state.map, marker);
+        infoWindow.setContent(content);
+      });
+
+      this.setState(state => state.markers.push(marker));
+    }
+  }
+
+  renderMap = () => {
+    loadScript(
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyDBBlr6-M5k81x_a4D8PQGCYm1BdTHABUA&callback=initMap'
+    );
+    window.initMap = this.initMap;
+  };
+
+  initMap = () => {
+    const mapCenter = { lat: 36.162177, lng: -86.849023 };
+    var map = new window.google.maps.Map(
+      window.document.getElementById('map'),
+      {
+        center: mapCenter,
+        zoom: 15
+      }
+    );
+
+    this.setState({ map });
+
+    const infoWindow = new window.google.maps.InfoWindow();
+
+    this.state.venues.map(ven => {
+      const lat = ven.venue.location.lat;
+      const lng = ven.venue.location.lng;
+      const name = ven.venue.name.toString();
+      var marker = new window.google.maps.Marker({
+        position: { lat: lat, lng: lng },
+        map: map,
+        animation: window.google.maps.Animation.DROP
+      });
+
+      const content = `<h2>${ven.venue.name}</h2>
+                       <p>${ven.venue.location.address || ''}</p>`;
+
+      marker.addListener('click', () => {
+        infoWindow.open(map, marker);
+        infoWindow.setContent(content);
+      });
+
+      this.setState(state => state.markers.push(marker));
+
+      console.log(this.state.venues);
+    });
+  };
 
   showMarker = (lat, lng) => {
     this.setState({ selectedLocation: { lat, lng } });
+    this.updateMarkers(lat, lng);
   };
 
   getVenues = () => {
@@ -40,8 +130,10 @@ class App extends Component {
 
     Axios.get(endpoint + new URLSearchParams(parameters))
       .then(res => {
-        this.setState({ venues: res.data.response.groups[0].items });
-        console.log(res.data.response.groups[0].items);
+        this.setState(
+          { venues: res.data.response.groups[0].items },
+          this.renderMap()
+        );
       })
       .catch(err => console.log(err));
   };
@@ -63,15 +155,22 @@ class App extends Component {
               venues={this.state.venues}
             />
           </div>
-          <Map
-            selectedLocation={this.state.selectedLocation}
-            venue={this.state.venue}
-            venues={this.state.venues}
-          />
+          <Main>
+            <GoogleMap id="map" />
+          </Main>
         </Wrapper>
       </div>
     );
   }
 }
+
+const loadScript = url => {
+  const index = window.document.getElementsByTagName('script')[0];
+  const script = window.document.createElement('script');
+  script.src = url;
+  script.async = true;
+  script.defer = true;
+  index.parentNode.insertBefore(script, index);
+};
 
 export default App;

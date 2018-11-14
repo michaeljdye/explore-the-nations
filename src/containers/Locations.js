@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Location from './Location';
 import styled from 'styled-components';
 
 const Wrapper = styled.section`
@@ -64,7 +63,6 @@ export default class Locations extends Component {
             <p className="location-address">{ven.venue.location.address}</p>
           </Wrapper>
         ))}
-        <Location />
       </div>
     );
   }
