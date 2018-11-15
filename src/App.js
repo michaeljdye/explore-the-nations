@@ -69,7 +69,7 @@ class App extends Component {
 
   renderMap = () => {
     loadScript(
-      'https://maps.googleapis.com/maps/api/js?key=AIzaSyDBBlr6-M5k81x_a4D8PQGCYm1BdTHABUA&callback=initMap'
+      'https://maps.googleapis.com/maps/api/js?key=AIzaSyDBBlr6-M5k81x_a4D8PQGCYm1BdTHABUA&libraries=places&callback=initMap'
     );
     window.initMap = this.initMap;
   };
@@ -91,24 +91,53 @@ class App extends Component {
     this.state.venues.map(ven => {
       const lat = ven.venue.location.lat;
       const lng = ven.venue.location.lng;
-      const name = ven.venue.name.toString();
+      const name = ven.venue.name;
       var marker = new window.google.maps.Marker({
         position: { lat: lat, lng: lng },
         map: map,
         animation: window.google.maps.Animation.DROP
       });
 
-      const content = `<h2>${ven.venue.name}</h2>
-                       <p>${ven.venue.location.address || ''}</p>`;
+      const getVenueDetails = (results, status) => {
+        console.log(results);
+        const content = `<div style="height:fit-content;">
+                          <h2>${results[0].name}</h2>
+                          <p>${results[0].formatted_address || ''}</p>
+                          <p>Rating: ${results[0].rating}</p>
+                          <p>${
+                            results[0].opening_hours.open_now === true
+                              ? 'Open'
+                              : 'Closed'
+                          }<p>
+                          <img src="${results[0].photos[0].getUrl()}" height="200px" alt="${
+          results[0].name
+        }">
+                        </div>
+                         `;
+        marker.addListener('click', () => {
+          infoWindow.open(map, marker);
+          infoWindow.setContent(content);
+        });
+      };
 
-      marker.addListener('click', () => {
-        infoWindow.open(map, marker);
-        infoWindow.setContent(content);
-      });
+      const request = {
+        query: name,
+        fields: [
+          'photos',
+          'rating',
+          'name',
+          'opening_hours',
+          'formatted_address'
+        ],
+        locationBias: {
+          lat,
+          lng
+        }
+      };
+      const service = new window.google.maps.places.PlacesService(map);
+      service.findPlaceFromQuery(request, getVenueDetails);
 
       this.setState(state => state.markers.push(marker));
-
-      console.log(this.state.venues);
     });
   };
 
