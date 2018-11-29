@@ -46,20 +46,15 @@ export default class Locations extends Component {
     this.setState({ filteredVenues: searchedVenue });
   }
 
-  getLatLng = (lat, lng) => {
-    this.props.showMarker(lat, lng);
+  getName = name => {
+    this.props.showMarkerInfo(name);
   };
 
   render() {
     return (
       <div>
         {this.state.filteredVenues.map((ven, index) => (
-          <Wrapper
-            key={index}
-            onClick={() =>
-              this.getLatLng(ven.venue.location.lat, ven.venue.location.lng)
-            }
-          >
+          <Wrapper key={index} onClick={() => this.getName(ven.venue.name)}>
             <p className="location-title">{ven.venue.name}</p>
             <p className="location-address">{ven.venue.location.address}</p>
           </Wrapper>

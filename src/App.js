@@ -41,7 +41,7 @@ class App extends Component {
   updateMarkers(searchedVenue) {
     if (this.state.markers) {
       this.state.markers.map(marker => {
-        marker.setMap(null);
+        marker[0].setMap(null);
       });
     }
 
@@ -50,6 +50,8 @@ class App extends Component {
         const selectedVenue = this.state.venues.filter(
           ven => ven.venue.location.lat === searchedVen.venue.location.lat
         );
+
+        const name = selectedVenue[0].venue.name;
 
         const position = {
           lat: selectedVenue[0].venue.location.lat,
@@ -71,7 +73,7 @@ class App extends Component {
           infoWindow.setContent(content);
         });
 
-        this.setState(state => state.markers.push(marker));
+        this.setState(state => state.markers.push([marker, name]));
       });
     }
   }
@@ -108,18 +110,21 @@ class App extends Component {
       });
 
       const getVenueDetails = (results, status) => {
-        const content = `<div style="height:fit-content;">
+        const content = `<div style="text-align: center;">
                           <h2>${results[0].name}</h2>
                           <p>${results[0].formatted_address || ''}</p>
-                          <p>Rating: ${results[0].rating}</p>
-                          <p>${
+                          <div style="display: flex; justify-content: center;">
+                          <p style="margin-right: 25px;"><span style="font-weight: 700">Rating:</span> ${
+                            results[0].rating
+                          }</p>
+                          <p style="${
                             results[0].opening_hours.open_now === true
-                              ? 'Open'
-                              : 'Closed'
-                          }<p>
-                          <img src="${results[0].photos[0].getUrl()}" height="200px" alt="${
-          results[0].name
-        }">
+                              ? 'color: green;'
+                              : 'color: red;'
+                          } font-weight: 700;">${
+          results[0].opening_hours.open_now === true ? 'Open' : 'Closed'
+        }<p>
+                          </div>
                         </div>
                          `;
         marker.addListener('click', () => {
@@ -145,13 +150,16 @@ class App extends Component {
       const service = new window.google.maps.places.PlacesService(map);
       service.findPlaceFromQuery(request, getVenueDetails);
 
-      this.setState(state => state.markers.push(marker));
+      this.setState(state => state.markers.push([marker, name]));
     });
   };
 
-  showMarker = (lat, lng) => {
-    this.setState({ selectedLocation: { lat, lng } });
-    this.updateMarkers(lat, lng);
+  showMarkerInfo = name => {
+    const filteredMarker = this.state.markers.filter(
+      marker => marker[1] === name
+    );
+    console.log(filteredMarker);
+    window.google.maps.event.trigger(filteredMarker[0][0], 'click');
   };
 
   getVenues = () => {
@@ -161,7 +169,7 @@ class App extends Component {
       client_secret: 'XSDZ20QPDEFL0HZJFNEFK24BYUNSE1I23ZWMOQUNP3A3L1OZ',
       query: 'food',
       ll: '36.162177, -86.849023',
-      radius: '1000',
+      radius: '600',
       v: '20181112'
     };
 
@@ -189,9 +197,9 @@ class App extends Component {
         <Header />
         <Wrapper>
           <div>
-            <Search getLocation={this.openWindow} />
+            <Search getLocation={this.getLocation} />
             <Locations
-              showMarker={this.showMarker}
+              showMarkerInfo={this.showMarkerInfo}
               venue={this.state.venue}
               venues={this.state.venues}
             />
