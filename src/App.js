@@ -6,6 +6,10 @@ import styled from 'styled-components';
 import Locations from './containers/Locations';
 import Axios from 'axios';
 
+const Container = styled.div`
+  background-color: #f8f9fd;
+`;
+
 const Wrapper = styled.div`
   display: grid;
   grid-template-columns: 300px 1fr;
@@ -34,36 +38,41 @@ class App extends Component {
     this.updateMarkers();
   }
 
-  updateMarkers(lat, lng) {
+  updateMarkers(searchedVenue) {
     if (this.state.markers) {
       this.state.markers.map(marker => {
         marker.setMap(null);
       });
     }
 
-    const selectedVenue = this.state.venues.filter(
-      ven => ven.venue.location.lat === lat
-    );
+    if (searchedVenue) {
+      searchedVenue.forEach(searchedVen => {
+        const selectedVenue = this.state.venues.filter(
+          ven => ven.venue.location.lat === searchedVen.venue.location.lat
+        );
 
-    if (lat) {
-      const position = { lat: lat, lng: lng };
-      const marker = new window.google.maps.Marker({
-        position: position,
-        map: this.state.map,
-        animation: window.google.maps.Animation.DROP
+        const position = {
+          lat: selectedVenue[0].venue.location.lat,
+          lng: selectedVenue[0].venue.location.lng
+        };
+        const marker = new window.google.maps.Marker({
+          position: position,
+          map: this.state.map,
+          animation: window.google.maps.Animation.DROP
+        });
+
+        const infoWindow = new window.google.maps.InfoWindow();
+
+        const content = `<h2>${selectedVenue[0].venue.name}</h2>
+          <p>${selectedVenue[0].venue.location.address || ''}</p>`;
+
+        marker.addListener('click', () => {
+          infoWindow.open(this.state.map, marker);
+          infoWindow.setContent(content);
+        });
+
+        this.setState(state => state.markers.push(marker));
       });
-
-      const infoWindow = new window.google.maps.InfoWindow();
-
-      const content = `<h2>${selectedVenue[0].venue.name}</h2>
-      <p>${selectedVenue[0].venue.location.address || ''}</p>`;
-
-      marker.addListener('click', () => {
-        infoWindow.open(this.state.map, marker);
-        infoWindow.setContent(content);
-      });
-
-      this.setState(state => state.markers.push(marker));
     }
   }
 
@@ -99,7 +108,6 @@ class App extends Component {
       });
 
       const getVenueDetails = (results, status) => {
-        console.log(results);
         const content = `<div style="height:fit-content;">
                           <h2>${results[0].name}</h2>
                           <p>${results[0].formatted_address || ''}</p>
@@ -153,7 +161,7 @@ class App extends Component {
       client_secret: 'XSDZ20QPDEFL0HZJFNEFK24BYUNSE1I23ZWMOQUNP3A3L1OZ',
       query: 'food',
       ll: '36.162177, -86.849023',
-      radius: '500',
+      radius: '1000',
       v: '20181112'
     };
 
@@ -168,16 +176,20 @@ class App extends Component {
   };
 
   getLocation = venue => {
+    const searchedVenue = this.state.venues.filter(ven =>
+      ven.venue.name.toLowerCase().includes(venue.toString().toLowerCase())
+    );
     this.setState({ venue });
+    this.updateMarkers(searchedVenue);
   };
 
   render() {
     return (
-      <div className="App">
+      <Container>
         <Header />
         <Wrapper>
           <div>
-            <Search getLocation={this.getLocation} />
+            <Search getLocation={this.openWindow} />
             <Locations
               showMarker={this.showMarker}
               venue={this.state.venue}
@@ -188,7 +200,7 @@ class App extends Component {
             <GoogleMap id="map" />
           </Main>
         </Wrapper>
-      </div>
+      </Container>
     );
   }
 }

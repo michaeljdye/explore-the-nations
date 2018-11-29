@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 
 const Wrapper = styled.section`
-  background: #d13e58;
-  border-top: 1px solid #fff;
+  background: #fff;
+  border-bottom: 1px solid #818a8f;
   color: #fff;
   height: 75px;
   display: flex;
@@ -11,10 +11,11 @@ const Wrapper = styled.section`
   align-items: center;
   flex-direction: column;
   text-align: center;
+  color: #818a8f;
 
   &:hover {
     cursor: pointer;
-    background: #af3349;
+    background-color: #f8f9fd;
   }
 
   .location-title,

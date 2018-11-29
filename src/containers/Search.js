@@ -3,8 +3,10 @@ import styled from 'styled-components';
 
 const Wrapper = styled.div`
   padding: 20px;
-  background: #d13e58;
-  border-top: 1px solid #fff;
+  background-color: #fff;
+  text-align: center;
+  border-top: 1px solid #818a8f;
+  border-bottom: 1px solid #818a8f;
 `;
 
 const Input = styled.input`
@@ -14,6 +16,14 @@ const Input = styled.input`
   height: 2rem;
   font-size: 1rem;
   text-align: center;
+  background-color: #f8f9fd;
+  width: 80%;
+  transition: all 0.2s;
+
+  &:focus {
+    outline: none;
+    width: 100%;
+  }
 `;
 
 export default class Search extends Component {
