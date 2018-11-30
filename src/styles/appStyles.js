@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 
-// APP
 export const Wrapper = styled.div`
   background-color: ${props => props.theme.colorGreyLight};
 `;
@@ -28,12 +27,3 @@ export const MapSection = styled.main`
 export const GMap = styled.div`
   height: 100%;
 `;
-
-export const theme = {
-  colorPrimary: '#9b63f8',
-  colorSecondary: '#819ff9',
-  colorWhite: '#fff',
-  colorGreyLight: '#f8f9fd',
-  colorGreyDark: '#818a8f',
-  borderRounded: '1000px'
-};

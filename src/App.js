@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
-import Axios from 'axios';
 import { ThemeProvider } from 'styled-components';
-import { theme, GMap, MapSection, Main, Wrapper } from './styles/appStyles';
+import { theme } from './styles/theme';
+import { GMap, MapSection, Main, Wrapper } from './styles/appStyles';
 import './App.css';
 import Header from './components/Header';
 import Search from './containers/Search';
 import Locations from './containers/Locations';
+import { getVenues } from './api/api';
 
-class App extends Component {
+export default class App extends Component {
   state = {
     venue: '',
     venues: [],
@@ -17,7 +18,15 @@ class App extends Component {
   };
 
   componentDidMount() {
-    this.getVenues();
+    if (this.state.venues.length === 0)
+      getVenues()
+        .then(res => {
+          this.setState(
+            { venues: res.data.response.groups[0].items },
+            this.renderMap()
+          );
+        })
+        .catch(err => console.log(err));
     this.updateMarkers();
   }
 
@@ -145,27 +154,6 @@ class App extends Component {
     window.google.maps.event.trigger(filteredMarker[0][0], 'click');
   };
 
-  getVenues = () => {
-    const endpoint = 'https://api.foursquare.com/v2/venues/explore?';
-    const parameters = {
-      client_id: '4YDVSH1N0LJ4OF32W33SCDN2DTJTU1IPVSJ0W1JAZBPYAVBR',
-      client_secret: 'XSDZ20QPDEFL0HZJFNEFK24BYUNSE1I23ZWMOQUNP3A3L1OZ',
-      query: 'food',
-      ll: '36.162177, -86.849023',
-      radius: '600',
-      v: '20181112'
-    };
-
-    Axios.get(endpoint + new URLSearchParams(parameters))
-      .then(res => {
-        this.setState(
-          { venues: res.data.response.groups[0].items },
-          this.renderMap()
-        );
-      })
-      .catch(err => console.log(err));
-  };
-
   getLocation = venue => {
     const searchedVenue = this.state.venues.filter(ven =>
       ven.venue.name.toLowerCase().includes(venue.toString().toLowerCase())
@@ -176,7 +164,6 @@ class App extends Component {
 
   render() {
     const { venue, venues, listItems } = this.state;
-    console.log(venues);
     return (
       <ThemeProvider theme={theme}>
         <Wrapper>
@@ -208,5 +195,3 @@ const loadScript = url => {
   script.defer = true;
   index.parentNode.insertBefore(script, index);
 };
-
-export default App;
