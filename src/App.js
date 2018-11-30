@@ -1,16 +1,10 @@
 import React, { Component } from 'react';
 import Axios from 'axios';
 import { ThemeProvider } from 'styled-components';
-import {
-  theme,
-  GoogleMap,
-  MapSection,
-  Main,
-  Wrapper
-} from './styles/appStyles';
+import { theme, GMap, MapSection, Main, Wrapper } from './styles/appStyles';
 import './App.css';
 import Header from './components/Header';
-import Search from './components/Search';
+import Search from './containers/Search';
 import Locations from './containers/Locations';
 
 class App extends Component {
@@ -25,47 +19,6 @@ class App extends Component {
   componentDidMount() {
     this.getVenues();
     this.updateMarkers();
-  }
-
-  updateMarkers(searchedVenue) {
-    if (this.state.markers) {
-      this.state.markers.map(marker => {
-        marker[0].setMap(null);
-      });
-    }
-
-    if (searchedVenue) {
-      searchedVenue.forEach(searchedVen => {
-        const selectedVenue = this.state.venues.filter(
-          ven => ven.venue.location.lat === searchedVen.venue.location.lat
-        );
-
-        const name = selectedVenue[0].venue.name;
-
-        const position = {
-          lat: selectedVenue[0].venue.location.lat,
-          lng: selectedVenue[0].venue.location.lng
-        };
-        const marker = new window.google.maps.Marker({
-          position: position,
-          map: this.state.map,
-          animation: window.google.maps.Animation.DROP
-        });
-
-        const infoWindow = new window.google.maps.InfoWindow();
-
-        const content = `<h2>${selectedVenue[0].venue.name} Poop</h2>
-          <p>${selectedVenue[0].venue.location.address || ''}</p>`;
-
-        marker.addListener('click', () => {
-          infoWindow.open(this.state.map, marker);
-          infoWindow.setContent(content);
-        });
-
-        this.setState({ listItems: searchedVenue });
-        this.setState(state => state.markers.push([marker, name]));
-      });
-    }
   }
 
   renderMap = () => {
@@ -144,6 +97,47 @@ class App extends Component {
     });
   };
 
+  updateMarkers(searchedVenue) {
+    if (this.state.markers) {
+      this.state.markers.map(marker => {
+        marker[0].setMap(null);
+      });
+    }
+
+    if (searchedVenue) {
+      searchedVenue.forEach(searchedVen => {
+        const selectedVenue = this.state.venues.filter(
+          ven => ven.venue.location.lat === searchedVen.venue.location.lat
+        );
+
+        const name = selectedVenue[0].venue.name;
+
+        const position = {
+          lat: selectedVenue[0].venue.location.lat,
+          lng: selectedVenue[0].venue.location.lng
+        };
+        const marker = new window.google.maps.Marker({
+          position: position,
+          map: this.state.map,
+          animation: window.google.maps.Animation.DROP
+        });
+
+        const infoWindow = new window.google.maps.InfoWindow();
+
+        const content = `<h2>${selectedVenue[0].venue.name} Poop</h2>
+          <p>${selectedVenue[0].venue.location.address || ''}</p>`;
+
+        marker.addListener('click', () => {
+          infoWindow.open(this.state.map, marker);
+          infoWindow.setContent(content);
+        });
+
+        this.setState({ listItems: searchedVenue });
+        this.setState(state => state.markers.push([marker, name]));
+      });
+    }
+  }
+
   showMarkerInfo = name => {
     const filteredMarker = this.state.markers.filter(
       marker => marker[1] === name
@@ -181,6 +175,8 @@ class App extends Component {
   };
 
   render() {
+    const { venue, venues, listItems } = this.state;
+    console.log(venues);
     return (
       <ThemeProvider theme={theme}>
         <Wrapper>
@@ -190,16 +186,12 @@ class App extends Component {
               <Search getLocation={this.getLocation} />
               <Locations
                 showMarkerInfo={this.showMarkerInfo}
-                venue={this.state.venue}
-                listItems={
-                  this.state.listItems.length === 0
-                    ? this.state.venues
-                    : this.state.listItems
-                }
+                venue={venue}
+                listItems={listItems.length === 0 ? venues : listItems}
               />
             </div>
             <MapSection>
-              <GoogleMap id="map" />
+              <GMap id="map" />
             </MapSection>
           </Main>
         </Wrapper>

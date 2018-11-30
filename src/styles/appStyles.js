@@ -25,7 +25,7 @@ export const MapSection = styled.main`
   }
 `;
 
-export const GoogleMap = styled.div`
+export const GMap = styled.div`
   height: 100%;
 `;
 

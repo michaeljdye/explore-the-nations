@@ -12,6 +12,7 @@ export default class Search extends Component {
   };
 
   render() {
+    const { query } = this.state;
     return (
       <div>
         <SearchSection>
@@ -19,7 +20,7 @@ export default class Search extends Component {
             onChange={e => this.searchLocation(e.target.value)}
             type="search"
             placeholder="Search Location"
-            value={this.state.query}
+            value={query}
           />
         </SearchSection>
       </div>

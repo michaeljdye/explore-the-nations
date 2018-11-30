@@ -9,13 +9,13 @@ export default class Locations extends Component {
   render() {
     return (
       <div>
-        {this.props.listItems.map((ven, index) => (
+        {this.props.listItems.map((data, index) => (
           <LocationsSection
             key={index}
-            onClick={() => this.getName(ven.venue.name)}
+            onClick={() => this.getName(data.venue.name)}
           >
-            <p className="location-title">{ven.venue.name}</p>
-            <p className="location-address">{ven.venue.location.address}</p>
+            <p className="location-title">{data.venue.name}</p>
+            <p className="location-address">{data.venue.location.address}</p>
           </LocationsSection>
         ))}
       </div>
