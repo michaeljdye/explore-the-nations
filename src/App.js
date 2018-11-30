@@ -15,6 +15,7 @@ import Locations from './containers/Locations';
 
 class App extends Component {
   state = {
+    query: '',
     venue: '',
     venues: [],
     map: '',
@@ -25,6 +26,11 @@ class App extends Component {
     this.getVenues();
     this.updateMarkers();
   }
+
+  searchLocation = query => {
+    this.setState({ query });
+    this.getLocation(query);
+  };
 
   updateMarkers(searchedVenue) {
     if (this.state.markers) {
@@ -185,7 +191,10 @@ class App extends Component {
           <Header />
           <Main>
             <div>
-              <Search getLocation={this.getLocation} />
+              <Search
+                searchLocation={this.searchLocation}
+                query={this.state.query}
+              />
               <Locations
                 showMarkerInfo={this.showMarkerInfo}
                 venue={this.state.venue}
