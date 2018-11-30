@@ -1,33 +1,5 @@
 import React, { Component } from 'react';
-import styled from 'styled-components';
-
-const Wrapper = styled.section`
-  background: #fff;
-  border-bottom: 1px solid #818a8f;
-  color: #fff;
-  height: 75px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  text-align: center;
-  color: #818a8f;
-
-  &:hover {
-    cursor: pointer;
-    background-color: #f8f9fd;
-  }
-
-  .location-title,
-  .location-address {
-    margin: 0;
-    padding: 5px;
-  }
-
-  .location-title {
-    font-weight: 700;
-  }
-`;
+import { LocationsSection } from '../styles/locationsStyles';
 
 export default class Locations extends Component {
   state = {
@@ -54,10 +26,13 @@ export default class Locations extends Component {
     return (
       <div>
         {this.state.filteredVenues.map((ven, index) => (
-          <Wrapper key={index} onClick={() => this.getName(ven.venue.name)}>
+          <LocationsSection
+            key={index}
+            onClick={() => this.getName(ven.venue.name)}
+          >
             <p className="location-title">{ven.venue.name}</p>
             <p className="location-address">{ven.venue.location.address}</p>
-          </Wrapper>
+          </LocationsSection>
         ))}
       </div>
     );

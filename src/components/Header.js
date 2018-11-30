@@ -1,22 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: linear-gradient(150deg, #819ff9 40%, #9b63f8 60%);
-  height: 60px;
-`;
-
-const Title = styled.h1`
-  color: #fff;
-`;
+import { HeaderSection, Title } from '../styles/headerStyles';
 
 export default () => {
   return (
-    <Wrapper>
+    <HeaderSection>
       <Title>Explore The Nations</Title>
-    </Wrapper>
+    </HeaderSection>
   );
 };

@@ -1,29 +1,17 @@
 import React, { Component } from 'react';
+import Axios from 'axios';
+import { ThemeProvider } from 'styled-components';
+import {
+  theme,
+  GoogleMap,
+  MapSection,
+  Main,
+  Wrapper
+} from './styles/appStyles';
 import './App.css';
 import Header from './components/Header';
 import Search from './containers/Search';
-import styled from 'styled-components';
 import Locations from './containers/Locations';
-import Axios from 'axios';
-
-const Container = styled.div`
-  background-color: #f8f9fd;
-`;
-
-const Wrapper = styled.div`
-  display: grid;
-  grid-template-columns: 300px 1fr;
-`;
-
-const Main = styled.main`
-  height: 100vh;
-  margin: 0;
-  padding: 0;
-`;
-
-const GoogleMap = styled.div`
-  height: 100%;
-`;
 
 class App extends Component {
   state = {
@@ -65,7 +53,7 @@ class App extends Component {
 
         const infoWindow = new window.google.maps.InfoWindow();
 
-        const content = `<h2>${selectedVenue[0].venue.name}</h2>
+        const content = `<h2>${selectedVenue[0].venue.name} Poop</h2>
           <p>${selectedVenue[0].venue.location.address || ''}</p>`;
 
         marker.addListener('click', () => {
@@ -109,7 +97,7 @@ class App extends Component {
         animation: window.google.maps.Animation.DROP
       });
 
-      const getVenueDetails = (results, status) => {
+      const getVenueDetails = results => {
         const content = `<div style="text-align: center;">
                           <h2>${results[0].name}</h2>
                           <p>${results[0].formatted_address || ''}</p>
@@ -158,7 +146,6 @@ class App extends Component {
     const filteredMarker = this.state.markers.filter(
       marker => marker[1] === name
     );
-    console.log(filteredMarker);
     window.google.maps.event.trigger(filteredMarker[0][0], 'click');
   };
 
@@ -193,22 +180,24 @@ class App extends Component {
 
   render() {
     return (
-      <Container>
-        <Header />
+      <ThemeProvider theme={theme}>
         <Wrapper>
-          <div>
-            <Search getLocation={this.getLocation} />
-            <Locations
-              showMarkerInfo={this.showMarkerInfo}
-              venue={this.state.venue}
-              venues={this.state.venues}
-            />
-          </div>
+          <Header />
           <Main>
-            <GoogleMap id="map" />
+            <div>
+              <Search getLocation={this.getLocation} />
+              <Locations
+                showMarkerInfo={this.showMarkerInfo}
+                venue={this.state.venue}
+                venues={this.state.venues}
+              />
+            </div>
+            <MapSection>
+              <GoogleMap id="map" />
+            </MapSection>
           </Main>
         </Wrapper>
-      </Container>
+      </ThemeProvider>
     );
   }
 }
