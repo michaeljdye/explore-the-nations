@@ -10,7 +10,7 @@ import {
 } from './styles/appStyles';
 import './App.css';
 import Header from './components/Header';
-import Search from './containers/Search';
+import Search from './components/Search';
 import Locations from './containers/Locations';
 
 class App extends Component {
@@ -19,7 +19,8 @@ class App extends Component {
     venue: '',
     venues: [],
     map: '',
-    markers: []
+    markers: [],
+    listItems: []
   };
 
   componentDidMount() {
@@ -67,6 +68,7 @@ class App extends Component {
           infoWindow.setContent(content);
         });
 
+        this.setState({ listItems: searchedVenue });
         this.setState(state => state.markers.push([marker, name]));
       });
     }
@@ -198,7 +200,11 @@ class App extends Component {
               <Locations
                 showMarkerInfo={this.showMarkerInfo}
                 venue={this.state.venue}
-                venues={this.state.venues}
+                listItems={
+                  this.state.listItems.length === 0
+                    ? this.state.venues
+                    : this.state.listItems
+                }
               />
             </div>
             <MapSection>
