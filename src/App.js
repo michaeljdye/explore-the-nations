@@ -6,7 +6,7 @@ import './App.css';
 import Header from './components/Header';
 import Search from './containers/Search';
 import Locations from './containers/Locations';
-import { getVenues } from './api/api';
+import getVenues from './api/api';
 
 export default class App extends Component {
   state = {

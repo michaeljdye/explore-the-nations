@@ -1,6 +1,6 @@
 import Axios from 'axios';
 
-export const getVenues = () => {
+export default () => {
   const endpoint = 'https://api.foursquare.com/v2/venues/explore?';
   const parameters = {
     client_id: '4YDVSH1N0LJ4OF32W33SCDN2DTJTU1IPVSJ0W1JAZBPYAVBR',
