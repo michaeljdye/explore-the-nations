@@ -79,6 +79,7 @@ export default class App extends Component {
                           </div>
                         </div>
                          `;
+
         marker.addListener('click', () => {
           infoWindow.open(map, marker);
           infoWindow.setContent(content);
@@ -131,14 +132,8 @@ export default class App extends Component {
           animation: window.google.maps.Animation.DROP
         });
 
-        const infoWindow = new window.google.maps.InfoWindow();
-
-        const content = `<h2>${selectedVenue[0].venue.name} Poop</h2>
-          <p>${selectedVenue[0].venue.location.address || ''}</p>`;
-
         marker.addListener('click', () => {
-          infoWindow.open(this.state.map, marker);
-          infoWindow.setContent(content);
+          this.showMarkerInfo(name);
         });
 
         this.setState({ listItems: searchedVenue });
