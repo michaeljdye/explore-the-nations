@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from './appStyles';
 
 export const HeaderSection = styled.div`
   display: flex;
@@ -16,7 +17,5 @@ export const Title = styled.h1`
   color: ${props => props.theme.colorWhite};
   font-size: 3.4rem;
 
-  @media (max-width: 800px) {
-    font-size: 2.8rem;
-  }
+  ${media.tablet`font-size: 2.8rem;`};
 `;

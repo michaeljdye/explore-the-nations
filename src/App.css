@@ -1,3 +1,36 @@
 html {
   font-size: 62.5%; /* 1 rem = 10px */
 }
+
+/*
+ * Utils
+ */
+
+.text--bold {
+  font-weight: 700;
+}
+
+.color--warn {
+  color: red;
+}
+
+.color--success {
+  color: green;
+}
+
+/*
+  * Info Window
+  */
+
+.info-window {
+  text-align: center;
+}
+
+.info-window__content {
+  display: flex;
+  justify-content: center;
+}
+
+.info-window__rating {
+  margin-right: 25px;
+}

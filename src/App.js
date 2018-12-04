@@ -46,7 +46,7 @@ export default class App extends Component {
     window.initMap = this.initMap;
   };
 
-  initMap = () => {
+  initMap = (venues = this.state.venues) => {
     const mapCenter = { lat: 36.162177, lng: -86.849023 };
 
     var map = new window.google.maps.Map(
@@ -61,7 +61,7 @@ export default class App extends Component {
 
     const infoWindow = new window.google.maps.InfoWindow();
 
-    this.state.venues.map(ven => {
+    venues.map(ven => {
       const lat = ven.venue.location.lat;
       const lng = ven.venue.location.lng;
       const name = ven.venue.name;
@@ -72,18 +72,18 @@ export default class App extends Component {
       });
 
       const getVenueDetails = results => {
-        const content = `<div style="text-align: center;">
+        const content = `<div class="info-window">
                           <h2>${results[0].name}</h2>
                           <p>${results[0].formatted_address || ''}</p>
-                          <div style="display: flex; justify-content: center;">
-                          <p style="margin-right: 25px;"><span style="font-weight: 700">Rating:</span> ${
+                          <div class="info-window__content">
+                          <p class="info-window__rating"><span class="text--bold">Rating:</span> ${
                             results[0].rating
                           }</p>
-                          <p style="${
+                          <p class="text--bold ${
                             results[0].opening_hours.open_now === true
-                              ? 'color: green;'
-                              : 'color: red;'
-                          } font-weight: 700;">${
+                              ? 'color--success'
+                              : 'color--warn'
+                          }">${
           results[0].opening_hours.open_now === true ? 'Open' : 'Closed'
         }<p>
                           </div>
@@ -91,7 +91,12 @@ export default class App extends Component {
                          `;
 
         marker.addListener('click', () => {
-          infoWindow.open(map, marker);
+          const animateMarker = marker => {
+            marker.setAnimation(window.google.maps.Animation.BOUNCE);
+            setTimeout(() => marker.setAnimation(null), 750);
+          };
+
+          infoWindow.open(map, marker, animateMarker(marker));
           infoWindow.setContent(content);
         });
       };
@@ -120,37 +125,9 @@ export default class App extends Component {
   };
 
   updateMarkers(searchedVenue) {
-    if (this.state.markers) {
-      this.state.markers.map(marker => {
-        marker[0].setMap(null);
-      });
-    }
-
     if (searchedVenue) {
-      searchedVenue.forEach(searchedVen => {
-        const selectedVenue = this.state.venues.filter(
-          ven => ven.venue.location.lat === searchedVen.venue.location.lat
-        );
-
-        const name = selectedVenue[0].venue.name;
-
-        const position = {
-          lat: selectedVenue[0].venue.location.lat,
-          lng: selectedVenue[0].venue.location.lng
-        };
-        const marker = new window.google.maps.Marker({
-          position: position,
-          map: this.state.map,
-          animation: window.google.maps.Animation.DROP
-        });
-
-        marker.addListener('click', () => {
-          this.showMarkerInfo(name);
-        });
-
-        this.setState({ listItems: searchedVenue });
-        this.setState(state => state.markers.push([marker, name]));
-      });
+      this.setState({ markers: [] });
+      this.initMap(searchedVenue);
     }
   }
 
