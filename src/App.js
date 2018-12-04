@@ -14,19 +14,28 @@ export default class App extends Component {
     venues: [],
     map: '',
     markers: [],
-    listItems: []
+    listItems: [],
+    hasMap: false
   };
 
   componentDidMount() {
     if (this.state.venues.length === 0)
       getVenues()
         .then(res => {
-          this.setState(
-            { venues: res.data.response.groups[0].items },
-            this.renderMap()
-          );
+          if (res) {
+            localStorage.setItem('venues', JSON.stringify(res));
+            this.setState(
+              { venues: res.data.response.groups[0].items },
+              this.renderMap()
+            );
+          }
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          const storedVenues = JSON.parse(localStorage.getItem('venues'));
+          this.setState({
+            venues: storedVenues.data.response.groups[0].items
+          });
+        });
     this.updateMarkers();
   }
 
@@ -39,6 +48,7 @@ export default class App extends Component {
 
   initMap = () => {
     const mapCenter = { lat: 36.162177, lng: -86.849023 };
+
     var map = new window.google.maps.Map(
       window.document.getElementById('map'),
       {
@@ -105,6 +115,8 @@ export default class App extends Component {
 
       this.setState(state => state.markers.push([marker, name]));
     });
+
+    this.setState({ hasMap: true });
   };
 
   updateMarkers(searchedVenue) {
@@ -173,6 +185,7 @@ export default class App extends Component {
               />
             </div>
             <MapSection>
+              {this.state.hasMap === false ? <h2>No Connection</h2> : ''}
               <GMap id="map" />
             </MapSection>
           </Main>
