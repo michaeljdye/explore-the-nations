@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Search from './containers/Search';
 import Locations from './containers/Locations';
 import getVenues from './api/api';
+import loadScript from './utils/loadScript';
 
 export default class App extends Component {
   state = {
@@ -72,6 +73,7 @@ export default class App extends Component {
       });
 
       const getVenueDetails = results => {
+        if (!results) return;
         const content = `<div class="info-window">
                           <h2>${results[0].name}</h2>
                           <p>${results[0].formatted_address || ''}</p>
@@ -126,7 +128,6 @@ export default class App extends Component {
 
   updateMarkers(searchedVenue) {
     if (searchedVenue) {
-      this.setState({ markers: [] });
       this.initMap(searchedVenue);
     }
   }
@@ -176,12 +177,3 @@ export default class App extends Component {
     );
   }
 }
-
-const loadScript = url => {
-  const index = window.document.getElementsByTagName('script')[0];
-  const script = window.document.createElement('script');
-  script.src = url;
-  script.async = true;
-  script.defer = true;
-  index.parentNode.insertBefore(script, index);
-};
