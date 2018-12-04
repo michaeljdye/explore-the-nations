@@ -158,13 +158,18 @@ export default class App extends Component {
     const filteredMarker = this.state.markers.filter(
       marker => marker[1] === name
     );
-    window.google.maps.event.trigger(filteredMarker[0][0], 'click');
+
+    if (filteredMarker.length > 0) {
+      window.google.maps.event.trigger(filteredMarker[0][0], 'click');
+    }
   };
 
   getLocation = venue => {
+    if (this.state.markers.length === 0) return;
     const searchedVenue = this.state.venues.filter(ven =>
       ven.venue.name.toLowerCase().includes(venue.toString().toLowerCase())
     );
+
     this.setState({ venue });
     this.updateMarkers(searchedVenue);
   };
