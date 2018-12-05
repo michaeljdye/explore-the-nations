@@ -120,6 +120,7 @@ export default class App extends Component {
       const service = new window.google.maps.places.PlacesService(map);
       service.findPlaceFromQuery(request, getVenueDetails);
 
+      this.setState(state => (state.markers.length = 0));
       this.setState(state => state.markers.push([marker, name]));
     });
 
@@ -133,9 +134,12 @@ export default class App extends Component {
   }
 
   showMarkerInfo = name => {
+    console.log(this.state.markers);
     const filteredMarker = this.state.markers.filter(
       marker => marker[1] === name
     );
+
+    console.log(filteredMarker);
 
     if (filteredMarker.length > 0) {
       window.google.maps.event.trigger(filteredMarker[0][0], 'click');
@@ -148,7 +152,7 @@ export default class App extends Component {
       ven.venue.name.toLowerCase().includes(venue.toString().toLowerCase())
     );
 
-    this.setState({ venue });
+    this.setState({ venue, listItems: searchedVenue });
     this.updateMarkers(searchedVenue);
   };
 
