@@ -41,5 +41,6 @@ In addition, the following APIs are used:
 
 ## Acknowledgements
 
-- Hat tip to the following individuals:
-  \*\* [Elharony](https://www.youtube.com/channel/UCcWSbBe_s-T_gZRnqFbtyIA)
+Hat tip to the following individuals:
+
+- [Elharony](https://www.youtube.com/channel/UCcWSbBe_s-T_gZRnqFbtyIA)
