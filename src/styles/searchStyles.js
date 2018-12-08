@@ -7,16 +7,26 @@ export const SearchSection = styled.section`
   border-top: 1px solid ${props => props.theme.colorGreyDark};
   border-bottom: 1px solid ${props => props.theme.colorGreyDark};
 
+  & div {
+    position: relative;
+  }
+
   & label {
+    opacity: 0;
+    font-size: 1.4rem;
+    font-weight: 300;
     position: absolute;
-    right: -1000px;
+    top: 20%;
+    left: 50%;
+    z-index: 10;
+    transform: translateX(-50%);
+    transition: all 0.2s ease-in;
   }
 `;
 
 export const Input = styled.input`
   border: none;
   border-radius: 1000px;
-  width: 60%;
   height: 3.2rem;
   font-size: 1.6rem;
   text-align: center;
@@ -27,5 +37,11 @@ export const Input = styled.input`
   &:focus {
     outline: none;
     width: 100%;
+    margin-bottom: 20px;
+  }
+
+  &:focus + label {
+    opacity: 100;
+    transform: translate(-50%, 160%);
   }
 `;
