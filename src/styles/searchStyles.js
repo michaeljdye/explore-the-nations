@@ -1,11 +1,16 @@
 import styled from 'styled-components';
 
-export const SearchSection = styled.div`
+export const SearchSection = styled.section`
   padding: 20px;
   background-color: #fff;
   text-align: center;
   border-top: 1px solid ${props => props.theme.colorGreyDark};
   border-bottom: 1px solid ${props => props.theme.colorGreyDark};
+
+  & label {
+    position: absolute;
+    right: -1000px;
+  }
 `;
 
 export const Input = styled.input`

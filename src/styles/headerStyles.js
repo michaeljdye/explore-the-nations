@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { media } from './appStyles';
 
-export const HeaderSection = styled.div`
+export const HeaderSection = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;

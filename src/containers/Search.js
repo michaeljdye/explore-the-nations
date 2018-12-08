@@ -16,12 +16,16 @@ export default class Search extends Component {
     return (
       <div>
         <SearchSection>
-          <Input
-            onChange={e => this.searchLocation(e.target.value)}
-            type="search"
-            placeholder="Search Location"
-            value={query}
-          />
+          <form role="search">
+            <label htmlFor="search">Search Location</label>
+            <Input
+              id="search"
+              onChange={e => this.searchLocation(e.target.value)}
+              type="search"
+              placeholder="Search Location"
+              value={query ? query : 'Enter Location'}
+            />
+          </form>
         </SearchSection>
       </div>
     );

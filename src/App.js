@@ -150,6 +150,7 @@ export default class App extends Component {
 
   render() {
     const { venue, venues, listItems } = this.state;
+
     return (
       <ThemeProvider theme={theme}>
         <Wrapper>
@@ -165,7 +166,7 @@ export default class App extends Component {
             </div>
             <MapSection>
               {this.state.hasMap === false ? <h2>No Connection</h2> : ''}
-              <GMap id="map" />
+              <GMap id="map" role="application" />
             </MapSection>
           </Main>
         </Wrapper>

@@ -3,6 +3,6 @@ export const theme = {
   colorSecondary: '#819ff9',
   colorWhite: '#fff',
   colorGreyLight: '#f8f9fd',
-  colorGreyDark: '#818a8f',
+  colorGreyDark: '#626a6f',
   borderRounded: '1000px'
 };

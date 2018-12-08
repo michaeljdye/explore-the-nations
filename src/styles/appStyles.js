@@ -21,14 +21,14 @@ export const Wrapper = styled.div`
   background-color: ${props => props.theme.colorGreyLight};
 `;
 
-export const Main = styled.div`
+export const Main = styled.main`
   display: grid;
   grid-template-columns: 300px 1fr;
 
   ${media.tablet`grid-template-columns: 1fr;`};
 `;
 
-export const MapSection = styled.main`
+export const MapSection = styled.section`
   height: 100vh;
   margin: 0;
   padding: 0;
