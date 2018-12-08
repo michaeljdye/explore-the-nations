@@ -12,6 +12,7 @@ export const SearchSection = styled.section`
   }
 
   & label {
+    cursor: text;
     opacity: 0;
     font-size: 1.4rem;
     font-weight: 300;
