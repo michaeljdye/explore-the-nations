@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LocationsSection = styled.section`
+export const LocationContent = styled.div`
   background: ${props => props.theme.colorWhite};
   border-bottom: 1px solid ${props => props.theme.colorGreyDark};
   color: ${props => props.theme.colorWhite};
@@ -11,10 +11,22 @@ export const LocationsSection = styled.section`
   flex-direction: column;
   text-align: center;
   color: ${props => props.theme.colorGreyDark};
+  background-position: 0;
+  background-image: linear-gradient(
+    120deg,
+    transparent 0%,
+    transparent 50%,
+    ${props => props.theme.colorPrimary} 50%
+  );
+  background-size: 250%;
+  transition: all 0.4s;
 
-  &:hover {
+  &:hover,
+  &:focus {
+    outline: none;
+    color: ${props => props.theme.colorWhite}
     cursor: pointer;
-    background-color: ${props => props.theme.colorGreyLight};
+    background-position: 100%;
   }
 
   .location-title,

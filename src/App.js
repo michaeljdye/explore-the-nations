@@ -139,7 +139,6 @@ export default class App extends Component {
   };
 
   getLocation = venue => {
-    if (this.state.markers.length === 0) return;
     const searchedVenue = this.state.venues.filter(ven =>
       ven.venue.name.toLowerCase().includes(venue.toString().toLowerCase())
     );

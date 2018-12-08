@@ -13,7 +13,6 @@ export const SearchSection = styled.section`
 
   & label {
     cursor: text;
-    opacity: 0;
     font-size: 1.4rem;
     font-weight: 300;
     position: absolute;
@@ -21,7 +20,7 @@ export const SearchSection = styled.section`
     left: 50%;
     z-index: 10;
     transform: translateX(-50%);
-    transition: all 0.2s ease-in;
+    transition: all 0.2s;
   }
 `;
 
@@ -38,11 +37,9 @@ export const Input = styled.input`
   &:focus {
     outline: none;
     width: 100%;
-    margin-bottom: 20px;
   }
 
   &:focus + label {
-    opacity: 100;
-    transform: translate(-50%, 160%);
+    opacity: 0;
   }
 `;

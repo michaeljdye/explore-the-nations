@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { LocationsSection } from '../styles/locationsStyles';
+import { LocationContent } from '../styles/locationsStyles';
 
 export default class Locations extends Component {
   getName = name => {
@@ -8,17 +8,18 @@ export default class Locations extends Component {
 
   render() {
     return (
-      <div>
+      <>
         {this.props.listItems.map((data, index) => (
-          <LocationsSection
+          <LocationContent
             key={index}
             onClick={() => this.getName(data.venue.name)}
+            tabIndex="0"
           >
             <p className="location-title">{data.venue.name}</p>
             <p className="location-address">{data.venue.location.address}</p>
-          </LocationsSection>
+          </LocationContent>
         ))}
-      </div>
+      </>
     );
   }
 }

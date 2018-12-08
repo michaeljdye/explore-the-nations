@@ -14,7 +14,7 @@ export default class Search extends Component {
   render() {
     const { query } = this.state;
     return (
-      <div>
+      <>
         <SearchSection>
           <form role="search">
             <div>
@@ -23,12 +23,13 @@ export default class Search extends Component {
                 onChange={e => this.searchLocation(e.target.value)}
                 type="search"
                 value={query}
+                tabindex="1"
               />
               <label htmlFor="search">Search Location</label>
             </div>
           </form>
         </SearchSection>
-      </div>
+      </>
     );
   }
 }
