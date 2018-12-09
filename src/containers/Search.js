@@ -24,7 +24,7 @@ export default class Search extends Component {
                 onChange={e => this.searchLocation(e.target.value)}
                 type="search"
                 value={query}
-                tabindex="1"
+                tabindex="0"
               />
               <label htmlFor="search">Search Location</label>
             </div>

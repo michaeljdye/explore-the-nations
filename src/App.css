@@ -26,6 +26,10 @@ html {
   color: green;
 }
 
+.m-md {
+  margin: 20px;
+}
+
 /*
   * Info Window
   */

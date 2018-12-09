@@ -84,12 +84,12 @@ export default class App extends Component {
         if (!results) return;
 
         const { name, formatted_address, rating, opening_hours } = results[0];
-        const content = `<div class="info-window" tabindex="-1" role="dialog">
-                          <h2>${name}</h2>
+        const content = `<div class="info-window" role="dialog">
+                          <h2 class="m-md">${name}</h2>
                           <p>${formatted_address || ''}</p>
                           <div class="info-window__content">
-                            <p class="info-window__rating"><span class="text--bold">Rating:</span> ${rating}</p>
-                            <p class="text--bold ${
+                            <p class="m-md info-window__rating"><span class="text--bold">Rating:</span> ${rating}</p>
+                            <p class="m-md text--bold ${
                               opening_hours.open_now === true
                                 ? 'color--success'
                                 : 'color--warn'
