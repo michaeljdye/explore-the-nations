@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const LocationContent = styled.div`
+export const LocationContent = styled.li`
   background: ${props => props.theme.colorWhite};
   border-bottom: 1px solid ${props => props.theme.colorGreyDark};
   color: ${props => props.theme.colorWhite};

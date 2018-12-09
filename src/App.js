@@ -66,14 +66,19 @@ export default class App extends Component {
 
     const infoWindow = new window.google.maps.InfoWindow();
 
+    var bounds = new window.google.maps.LatLngBounds();
+
     venues.map(ven => {
       const { name, location } = ven.venue;
+      const latLng = { lat: location.lat, lng: location.lng };
 
       var marker = new window.google.maps.Marker({
-        position: { lat: location.lat, lng: location.lng },
+        position: latLng,
         map: map,
         animation: window.google.maps.Animation.DROP
       });
+
+      bounds.extend(latLng);
 
       const getVenueDetails = results => {
         if (!results) return;
@@ -120,6 +125,7 @@ export default class App extends Component {
       this.setState(state => state.markers.push([marker, name]));
     });
 
+    map.fitBounds(bounds);
     this.setState({ hasMap: true });
   };
 
@@ -151,25 +157,27 @@ export default class App extends Component {
     const { venue, venues, listItems } = this.state;
 
     return (
-      <ThemeProvider theme={theme}>
-        <Wrapper>
-          <Header />
-          <Main>
-            <div>
-              <Search getLocation={this.getLocation} />
-              <Locations
-                showMarkerInfo={this.showMarkerInfo}
-                venue={venue}
-                listItems={listItems.length === 0 ? venues : listItems}
-              />
-            </div>
-            <MapSection>
-              {this.state.hasMap === false ? <h2>No Connection</h2> : ''}
-              <GMap id="map" role="application" />
-            </MapSection>
-          </Main>
-        </Wrapper>
-      </ThemeProvider>
+      <>
+        <ThemeProvider theme={theme}>
+          <Wrapper>
+            <Header />
+            <Main>
+              <div>
+                <Search getLocation={this.getLocation} />
+                <Locations
+                  showMarkerInfo={this.showMarkerInfo}
+                  venue={venue}
+                  listItems={listItems.length === 0 ? venues : listItems}
+                />
+              </div>
+              <MapSection role="application" aria-label="Map with restaurants">
+                {this.state.hasMap === false ? <h2>No Connection</h2> : ''}
+                <GMap id="map" />
+              </MapSection>
+            </Main>
+          </Wrapper>
+        </ThemeProvider>
+      </>
     );
   }
 }

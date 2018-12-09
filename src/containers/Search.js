@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { SearchSection, Input } from '../styles/searchStyles';
 
 export default class Search extends Component {
@@ -33,3 +34,7 @@ export default class Search extends Component {
     );
   }
 }
+
+Search.propTypes = {
+  getLocation: PropTypes.func
+};

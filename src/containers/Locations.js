@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { LocationContent } from '../styles/locationsStyles';
 
 export default class Locations extends Component {
@@ -8,7 +9,7 @@ export default class Locations extends Component {
 
   render() {
     return (
-      <>
+      <ul>
         {this.props.listItems.map((data, index) => (
           <LocationContent
             key={index}
@@ -19,7 +20,13 @@ export default class Locations extends Component {
             <p className="location-address">{data.venue.location.address}</p>
           </LocationContent>
         ))}
-      </>
+      </ul>
     );
   }
 }
+
+Locations.propTypes = {
+  showMarkerInfo: PropTypes.func,
+  venue: PropTypes.string,
+  listItems: PropTypes.array
+};
