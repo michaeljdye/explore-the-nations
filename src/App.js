@@ -87,7 +87,7 @@ export default class App extends Component {
 
     var bounds = new window.google.maps.LatLngBounds();
 
-    venues.map(ven => {
+    venues.forEach(ven => {
       const { name, location } = ven.venue;
       const latLng = { lat: location.lat, lng: location.lng };
 
