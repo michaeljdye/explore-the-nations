@@ -1,12 +1,17 @@
 import styled, { css } from 'styled-components';
 
+// Declare breakpoint sizes
 const sizes = {
   desktop: 992,
   tablet: 768,
   phone: 576
 };
 
-// Iterate through the sizes and create a media template
+/**
+ * @description Iterate through breakpoints and create media template
+ * * Taken from Styled Components documentation:
+ * https://www.styled-components.com/docs/advanced#media-templates
+ */
 export const media = Object.keys(sizes).reduce((acc, label) => {
   acc[label] = (...args) => css`
     @media (max-width: ${sizes[label] / 16}em) {

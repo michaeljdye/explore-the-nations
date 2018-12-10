@@ -1,13 +1,16 @@
-html {
-  font-size: 62.5%; /* 1 rem = 10px */
-}
+/*
+ * Base
+ */
 
-/* Reset */
 *,
 *::before,
 *::after {
   margin: 0;
   padding: 0;
+}
+
+html {
+  font-size: 62.5%; /* 1 rem = 10px */
 }
 
 /*
@@ -31,8 +34,8 @@ html {
 }
 
 /*
-  * Info Window
-  */
+ * Info Window
+ */
 
 .info-window {
   text-align: center;

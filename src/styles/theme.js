@@ -1,3 +1,4 @@
+// Export theme styles
 export const theme = {
   colorPrimary: '#9b63f8',
   colorSecondary: '#819ff9',

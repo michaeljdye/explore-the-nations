@@ -9,6 +9,10 @@ import Header from './components/Header';
 import Search from './containers/Search';
 import Locations from './containers/Locations';
 
+/**
+ * @description React class component - inits maps, gets venues,
+ * and filters list items and markers on search.
+ */
 export default class App extends Component {
   state = {
     venue: '',
@@ -19,6 +23,11 @@ export default class App extends Component {
     hasMap: false
   };
 
+  /**
+   * @description Update state with retrieved venues.
+   * Then, call function to render Google Map.
+   * If error, render map with stored venues and log error.
+   */
   componentDidMount() {
     if (this.state.venues.length === 0) {
       const script =
@@ -45,11 +54,21 @@ export default class App extends Component {
     this.updateMarkers();
   }
 
+  /**
+   * @description call function to load script and set initMap function.
+   * @param { string } script - script URL.
+   */
   renderMap = script => {
     loadScript(script);
     window.initMap = this.initMap;
   };
 
+  /**
+   * @description Init Google Map and populate with venue markers.
+   * Create info window and set event listener to add location-specific content.
+   * Re-render with updated markers each time function is invoked.
+   * * Use Google Places Library to retrieve location data
+   */
   initMap = (venues = this.state.venues) => {
     const mapCenter = { lat: 36.162177, lng: -86.849023 };
 
@@ -129,12 +148,21 @@ export default class App extends Component {
     this.setState({ hasMap: true });
   };
 
+  /**
+   * @description Test if venue has been passed
+   * and call initMap with new venues.
+   * @param {string} searchedVenue - filtered venues.
+   */
   updateMarkers(searchedVenue) {
     if (searchedVenue) {
       this.initMap(searchedVenue);
     }
   }
 
+  /**
+   * @description Show info window of corresponding marker.
+   * @param { string } venueName - name of clicked venue.
+   */
   showMarkerInfo = venueName => {
     const filteredMarker = this.state.markers.filter(marker => {
       return marker[1].toLowerCase() === venueName.toLowerCase();
@@ -144,6 +172,11 @@ export default class App extends Component {
     window.google.maps.event.trigger(filteredMarker[0][0], 'click');
   };
 
+  /**
+   * @description Update state with filtered venues
+   * and call updateMarkers func with venues.
+   * @param { string } venue - name of searched venue.
+   */
   getLocation = venue => {
     const searchedVenue = this.state.venues.filter(ven =>
       ven.venue.name.toLowerCase().includes(venue.toString().toLowerCase())
@@ -153,6 +186,10 @@ export default class App extends Component {
     this.updateMarkers(searchedVenue);
   };
 
+  /**
+   * @description Render app.
+   * Wrap in ThemeProvider, so app has access to theme styles
+   */
   render() {
     const { venue, venues, listItems } = this.state;
 

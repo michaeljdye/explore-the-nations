@@ -12,6 +12,7 @@ export const SearchSection = styled.section`
   }
 
   & label {
+    opacity: 0;
     cursor: text;
     font-size: 1.4rem;
     font-weight: 300;
@@ -37,9 +38,5 @@ export const Input = styled.input`
   &:focus {
     outline: none;
     width: 100%;
-  }
-
-  &:focus + label {
-    opacity: 0;
   }
 `;

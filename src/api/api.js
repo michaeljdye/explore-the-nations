@@ -1,5 +1,11 @@
 import Axios from 'axios';
 
+/**
+ * @description Axios call to retrieve restaurant locations near The Nations.
+ * * Uses FourSquare Places API:
+ * https://developer.foursquare.com/places-api
+ */
+
 export default () => {
   const endpoint = 'https://api.foursquare.com/v2/venues/explore?';
   const parameters = {
