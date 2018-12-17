@@ -4,7 +4,7 @@ export const LocationContent = styled.li`
   background: ${props => props.theme.colorWhite};
   border-bottom: 1px solid ${props => props.theme.colorGreyDark};
   color: ${props => props.theme.colorWhite};
-  height: 75px;
+  height: 8rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -31,9 +31,9 @@ export const LocationContent = styled.li`
 
   .location-title,
   .location-address {
-    font-size: 1.6rem;
     margin: 0;
     padding: 5px;
+    border-bottom: 1px dotted ${props => props.theme.colorSecondary}
   }
 
   .location-title {

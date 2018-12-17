@@ -44,3 +44,10 @@ export const MapSection = styled.section`
 export const GMap = styled.div`
   height: 100%;
 `;
+
+export const MapErrorWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 250px;
+`;

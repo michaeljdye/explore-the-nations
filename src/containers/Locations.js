@@ -20,20 +20,20 @@ export default class Locations extends Component {
    */
   render() {
     return (
-      <ul>
-        {this.props.listItems.map((data, index) => (
-          <LocationContent
-            key={index}
-            onClick={() => this.getName(data.venue.name)}
-            tabIndex="0"
-          >
-            <p className="location-title">{data.venue.name}</p>
-            <p className="location-address">
-              {data.venue.location.address || ''}
-            </p>
-          </LocationContent>
-        ))}
-      </ul>
+      <nav>
+        <ul>
+          {this.props.listItems.map((data, index) => (
+            <LocationContent
+              key={index}
+              onClick={() => this.getName(data.venue.name)}
+              role="button"
+              tabIndex="0"
+            >
+              <h2 className="location-title">{data.venue.name}</h2>
+            </LocationContent>
+          ))}
+        </ul>
+      </nav>
     );
   }
 }

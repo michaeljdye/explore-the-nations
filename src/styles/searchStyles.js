@@ -14,7 +14,6 @@ export const SearchSection = styled.section`
   & label {
     opacity: 0;
     cursor: text;
-    font-size: 1.4rem;
     font-weight: 300;
     position: absolute;
     top: 20%;
@@ -31,6 +30,7 @@ export const Input = styled.input`
   height: 3.2rem;
   font-size: 1.6rem;
   text-align: center;
+  box-shadow: 0 1px 1px #00000026;
   background-color: ${props => props.theme.colorGreyLight};
   width: 80%;
   transition: all 0.2s;

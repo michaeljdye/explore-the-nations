@@ -2,12 +2,18 @@ import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import './App.css';
-import { GMap, MapSection, Main, Wrapper } from './styles/appStyles';
 import loadScript from './utils/loadScript';
 import getVenues from './api/api';
 import Header from './components/Header';
 import Search from './containers/Search';
 import Locations from './containers/Locations';
+import {
+  GMap,
+  MapSection,
+  Main,
+  Wrapper,
+  MapErrorWrapper
+} from './styles/appStyles';
 
 /**
  * @description React class component - inits maps, gets venues,
@@ -76,7 +82,7 @@ export default class App extends Component {
       window.document.getElementById('map'),
       {
         center: mapCenter,
-        zoom: 15
+        zoom: 20
       }
     );
 
@@ -102,10 +108,10 @@ export default class App extends Component {
       const getVenueDetails = results => {
         if (!results) return;
 
-        const { name, formatted_address, rating, opening_hours } = results[0];
-        const content = `<div class="info-window" role="dialog">
-                          <h2 class="m-md">${name}</h2>
-                          <p>${formatted_address || ''}</p>
+        const { rating, opening_hours, formatted_address } = results[0];
+        const content = `<div class="info-window" role="dialog" aria-labelledby="dialog-title">
+                          <h3 id="dialog-title" class="m-md">${name}</h3>
+                          <p>${location.address || formatted_address}</p>
                           <div class="info-window__content">
                             <p class="m-md info-window__rating"><span class="text--bold">Rating:</span> ${rating}</p>
                             <p class="m-md text--bold ${
@@ -192,7 +198,6 @@ export default class App extends Component {
    */
   render() {
     const { venue, venues, listItems } = this.state;
-
     return (
       <>
         <ThemeProvider theme={theme}>
@@ -208,7 +213,14 @@ export default class App extends Component {
                 />
               </div>
               <MapSection role="application" aria-label="Map with restaurants">
-                {this.state.hasMap === false ? <h2>No Connection</h2> : ''}
+                {this.state.hasMap === false ? (
+                  <MapErrorWrapper>
+                    <h2>No Connection</h2>
+                    <p>Please connect to internet to display map.</p>
+                  </MapErrorWrapper>
+                ) : (
+                  ''
+                )}
                 <GMap id="map" />
               </MapSection>
             </Main>
