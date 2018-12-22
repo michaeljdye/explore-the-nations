@@ -76,6 +76,8 @@ export default class App extends Component {
    * * Use Google Places Library to retrieve location data
    */
   initMap = (venues = this.state.venues) => {
+    if (!window.google) return;
+
     const mapCenter = { lat: 36.162177, lng: -86.849023 };
 
     var map = new window.google.maps.Map(
