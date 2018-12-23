@@ -75,13 +75,13 @@ export default class App extends Component {
       }
     );
 
-    this.setState({ map });
-
     this.setState(state => (state.markers.length = 0));
 
     const infoWindow = new window.google.maps.InfoWindow();
 
     var bounds = new window.google.maps.LatLngBounds();
+
+    const markers = [];
 
     venues.forEach(ven => {
       const { name, location } = ven.venue;
@@ -137,8 +137,10 @@ export default class App extends Component {
       const service = new window.google.maps.places.PlacesService(map);
       service.findPlaceFromQuery(request, getVenueDetails);
 
-      this.setState(state => state.markers.push([marker, name]));
+      markers.push([marker, name]);
     });
+
+    this.setState({ markers });
 
     map.fitBounds(bounds);
     this.setState({ hasMap: true });
@@ -194,6 +196,7 @@ export default class App extends Component {
    * Wrap in ThemeProvider, so app has access to theme styles
    */
   render() {
+    console.log(this.state.markers);
     const { venue, listItems } = this.state;
     return (
       <>
