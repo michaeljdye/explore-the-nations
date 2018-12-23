@@ -1,12 +1,10 @@
 # Explore The Nations
 
-Welcome to the Explore The Nations App!
-
-This app features some of the top restaurants in one of Nashville's hippest neighborhoods -- The Nations.
+Explore The Nations features some of the top restaurants in one of Nashville's hippest neighborhoods.
 
 ## Getting Started
 
-Once you've installed the app, you can started by searching a location. This will filter the list view and map markers to show locations matching your search. Click on the location name or the associated map marker to display more information about your selected location.
+Once you've installed the app, you can get started by searching a location and clicking submit. This will filter the list view and map markers to show locations matching your search. Click on the location name or the associated map marker to display more information about your selected location. Click reset to restart your search.
 
 ### Prerequisites
 
@@ -14,7 +12,7 @@ Once you've installed the app, you can started by searching a location. This wil
 
 ### Installing
 
-- Install the app by cloning the repository to your local computer
+- Install the app by cloning the repository to your computer
 - Then, run `npm install` to download all necessary dependencies
 
 ## Deployment
