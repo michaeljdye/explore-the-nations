@@ -6,7 +6,7 @@ export const GMap = styled.div`
 `;
 
 export const MapSection = styled.section`
-  height: 100vh;
+  height: 100%;
   margin: 0;
   padding: 0;
 
@@ -17,5 +17,5 @@ export const MapErrorWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 250px;
+  margin-top: 15.625rem;
 `;

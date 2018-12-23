@@ -40,3 +40,23 @@ export const Input = styled.input`
     width: 100%;
   }
 `;
+
+export const SubmitBtn = styled.button`
+  border: none;
+  border-radius: 3px;
+  background: ${props => props.theme.colorPrimary};
+  margin: 1.5rem 0 0 0;
+  padding: 0.6rem 1.4rem;
+  color: ${props => props.theme.colorWhite};
+  font-size: 1.4rem;
+  font-weight: 700;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover,
+  &:focus {
+    opacity: 0.8;
+  }
+`;
