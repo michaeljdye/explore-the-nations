@@ -2,20 +2,14 @@ import React, { Component } from 'react';
 import { ThemeProvider } from 'styled-components';
 import { theme } from './styles/theme';
 import './App.css';
-import loadScript from './utils/loadScript';
 import getVenues from './api/api';
 import Header from './components/Header';
 import Search from './containers/Search';
 import Locations from './containers/Locations';
-import {
-  GMap,
-  MapSection,
-  Main,
-  Wrapper,
-  MapErrorWrapper
-} from './styles/appStyles';
+import GoogleMap from './containers/GoogleMap';
+import { Main, Wrapper } from './styles/appStyles';
 
-/**
+/**s
  * @description React class component - inits maps, gets venues,
  * and filters list items and markers on search.
  */
@@ -36,9 +30,6 @@ export default class App extends Component {
    */
   componentDidMount() {
     if (this.state.venues.length === 0) {
-      const script =
-        'https://maps.googleapis.com/maps/api/js?key=AIzaSyDBBlr6-M5k81x_a4D8PQGCYm1BdTHABUA&libraries=places&callback=initMap';
-
       getVenues()
         .then(res => {
           if (!res) return;
@@ -48,10 +39,10 @@ export default class App extends Component {
               venues: res.data.response.groups[0].items,
               listItems: res.data.response.groups[0].items
             },
-            this.renderMap(script)
+            this.initMap
           );
         })
-        .catch(err => {
+        .catch(() => {
           const storedVenues = JSON.parse(localStorage.getItem('venues'));
           this.setState({
             venues: storedVenues.data.response.groups[0].items,
@@ -60,18 +51,7 @@ export default class App extends Component {
           console.log('Failed to connect to FourSquare API');
         });
     }
-
-    this.updateMarkers();
   }
-
-  /**
-   * @description call function to load script and set initMap function.
-   * @param { string } script - script URL.
-   */
-  renderMap = script => {
-    loadScript(script);
-    window.initMap = this.initMap;
-  };
 
   /**
    * @description Init Google Map and populate with venue markers.
@@ -102,8 +82,6 @@ export default class App extends Component {
     const infoWindow = new window.google.maps.InfoWindow();
 
     var bounds = new window.google.maps.LatLngBounds();
-
-    console.log(venues);
 
     venues.forEach(ven => {
       const { name, location } = ven.venue;
@@ -216,7 +194,7 @@ export default class App extends Component {
    * Wrap in ThemeProvider, so app has access to theme styles
    */
   render() {
-    const { venue, venues, listItems } = this.state;
+    const { venue, listItems } = this.state;
     return (
       <>
         <ThemeProvider theme={theme}>
@@ -231,17 +209,11 @@ export default class App extends Component {
                   listItems={listItems}
                 />
               </div>
-              <MapSection role="application" aria-label="Map with restaurants">
-                {this.state.hasMap === false ? (
-                  <MapErrorWrapper>
-                    <h2>No Connection</h2>
-                    <p>Please connect to internet to display map.</p>
-                  </MapErrorWrapper>
-                ) : (
-                  ''
-                )}
-                <GMap id="map" />
-              </MapSection>
+              <GoogleMap
+                hasMap={this.state.hasMap}
+                initMap={this.initMap}
+                venues={this.state.venues}
+              />
             </Main>
           </Wrapper>
         </ThemeProvider>
