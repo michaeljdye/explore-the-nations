@@ -81,18 +81,20 @@ export default class App extends Component {
       return;
     }
 
-    const mapCenter = { lat: 36.162177, lng: -86.849023 };
+    if (!Object.keys(this.state.map).length) {
+      const mapCenter = { lat: 36.162177, lng: -86.849023 };
 
-    var map = new window.google.maps.Map(
-      window.document.getElementById('map'),
-      {
-        center: mapCenter,
-        zoom: 20
-      }
-    );
+      var map = new window.google.maps.Map(
+        window.document.getElementById('map'),
+        {
+          center: mapCenter,
+          zoom: 20
+        }
+      );
 
-    this.setState({ map });
-    this.setState(state => (state.markers.length = 0));
+      this.setState({ map });
+      this.setState(state => (state.markers.length = 0));
+    }
 
     const infoWindow = new window.google.maps.InfoWindow();
 
@@ -113,7 +115,7 @@ export default class App extends Component {
       const getVenueDetails = results => {
         if (!results) return;
 
-        const { rating, opening_hours, formatted_address } = results[0];
+        const { rating, opening_hours = '', formatted_address } = results[0];
         const content = `<div class="info-window" role="dialog" aria-labelledby="dialog-title">
                           <h3 id="dialog-title" class="m-md">${name}</h3>
                           <p>${location.address || formatted_address}</p>
@@ -155,7 +157,7 @@ export default class App extends Component {
       this.setState(state => state.markers.push([marker, name]));
     });
 
-    map.fitBounds(bounds);
+    this.state.map.fitBounds(bounds);
     this.setState({ hasMap: true });
   };
 

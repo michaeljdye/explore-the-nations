@@ -13,7 +13,7 @@ export default () => {
     client_secret: 'XSDZ20QPDEFL0HZJFNEFK24BYUNSE1I23ZWMOQUNP3A3L1OZ',
     query: 'food',
     ll: '36.162177, -86.849023',
-    radius: '500',
+    radius: '1000',
     v: '20181112'
   };
 
