@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { SearchSection, Input, SubmitBtn } from '../styles/searchStyles';
+import { SearchSection, Input, Btn } from '../styles/searchStyles';
 
 /**
  * @description React class component - receive user search input
@@ -12,16 +12,30 @@ export default class Search extends Component {
   };
 
   /**
-   * @description Update state with new search query and passes query to getLocation func.
+   * @description Update state with new search query.
    * @param { string } query - value of search input.
    */
   handleSearchChange = query => {
     this.setState({ query });
   };
 
+  /**
+   * @description Pass query to getLocation function.
+   * @param { object } e - event
+   */
   handleSubmit = e => {
     e.preventDefault();
     this.props.getLocation(this.state.query);
+  };
+
+  /**
+   * @description Reset search.
+   * @param { object } e - event
+   */
+  handleReset = e => {
+    e.preventDefault();
+    this.setState({ query: '' });
+    this.props.getLocation();
   };
 
   /**
@@ -43,9 +57,20 @@ export default class Search extends Component {
               />
               <label htmlFor="search">Search Location</label>
             </div>
-            <SubmitBtn type="submit" onClick={this.handleSubmit}>
+            <Btn
+              type="button"
+              onClick={this.handleReset}
+              aria-label="Submit search"
+            >
+              Reset
+            </Btn>
+            <Btn
+              type="button"
+              onClick={this.handleSubmit}
+              aria-label="Reset search"
+            >
               Submit
-            </SubmitBtn>
+            </Btn>
           </form>
         </SearchSection>
       </>

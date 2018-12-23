@@ -41,11 +41,11 @@ export const Input = styled.input`
   }
 `;
 
-export const SubmitBtn = styled.button`
+export const Btn = styled.button`
   border: none;
   border-radius: 3px;
   background: ${props => props.theme.colorPrimary};
-  margin: 1.5rem 0 0 0;
+  margin: 1.5rem 10px 0 0;
   padding: 0.6rem 1.4rem;
   color: ${props => props.theme.colorWhite};
   font-size: 1.4rem;
