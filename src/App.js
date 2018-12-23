@@ -44,14 +44,18 @@ export default class App extends Component {
           if (!res) return;
           localStorage.setItem('venues', JSON.stringify(res));
           this.setState(
-            { venues: res.data.response.groups[0].items },
+            {
+              venues: res.data.response.groups[0].items,
+              listItems: res.data.response.groups[0].items
+            },
             this.renderMap(script)
           );
         })
         .catch(err => {
           const storedVenues = JSON.parse(localStorage.getItem('venues'));
           this.setState({
-            venues: storedVenues.data.response.groups[0].items
+            venues: storedVenues.data.response.groups[0].items,
+            listItems: storedVenues.data.response.groups[0].items
           });
           console.log('Failed to connect to FourSquare API');
         });
@@ -98,6 +102,8 @@ export default class App extends Component {
     const infoWindow = new window.google.maps.InfoWindow();
 
     var bounds = new window.google.maps.LatLngBounds();
+
+    console.log(venues);
 
     venues.forEach(ven => {
       const { name, location } = ven.venue;
@@ -181,6 +187,7 @@ export default class App extends Component {
     });
 
     if (filteredMarker.length === 0) return;
+
     window.google.maps.event.trigger(filteredMarker[0][0], 'click');
   };
 
@@ -190,6 +197,12 @@ export default class App extends Component {
    * @param { string } venue - name of searched venue.
    */
   getLocation = venue => {
+    if (!venue) {
+      this.initMap();
+      this.setState({ venue, listItems: this.state.venues });
+      return;
+    }
+
     const searchedVenue = this.state.venues.filter(ven =>
       ven.venue.name.toLowerCase().includes(venue.toString().toLowerCase())
     );
@@ -215,7 +228,7 @@ export default class App extends Component {
                 <Locations
                   showMarkerInfo={this.showMarkerInfo}
                   venue={venue}
-                  listItems={listItems.length === 0 ? venues : listItems}
+                  listItems={listItems}
                 />
               </div>
               <MapSection role="application" aria-label="Map with restaurants">

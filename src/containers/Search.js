@@ -16,8 +16,7 @@ export default class Search extends Component {
    * @param { string } query - value of search input.
    */
   searchLocation = query => {
-    this.setState({ query });
-    this.props.getLocation(query);
+    this.setState({ query }, this.props.getLocation(query));
   };
 
   /**
