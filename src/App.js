@@ -203,7 +203,7 @@ export default class App extends Component {
           <Wrapper>
             <Header />
             <Main>
-              <div>
+              <div className="row-1">
                 <Search getLocation={this.getLocation} />
                 <Locations
                   showMarkerInfo={this.showMarkerInfo}
@@ -211,14 +211,14 @@ export default class App extends Component {
                   listItems={listItems}
                 />
               </div>
-              <div>
+              <div className="row-2">
                 <GoogleMap
                   hasMap={this.state.hasMap}
                   initMap={this.initMap}
                   venues={this.state.venues}
                 />
-                <Footer />
               </div>
+              <Footer />
             </Main>
           </Wrapper>
         </ThemeProvider>

@@ -30,5 +30,11 @@ export const Main = styled.main`
   display: grid;
   grid-template-columns: 300px 1fr;
 
-  ${media.tablet`grid-template-columns: 1fr;`};
+  ${media.tablet`
+  grid-template-columns: 1fr;
+
+  .row-1 {
+    grid-row: 2 /3;
+  }
+  `};
 `;

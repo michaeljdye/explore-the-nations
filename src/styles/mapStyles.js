@@ -6,7 +6,7 @@ export const GMap = styled.div`
 `;
 
 export const MapSection = styled.section`
-  height: 100vh;
+  height: 85rem;
   margin: 0;
   padding: 0;
 
