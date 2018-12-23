@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Search from './containers/Search';
 import Locations from './containers/Locations';
 import GoogleMap from './containers/GoogleMap';
+import Footer from './components/Footer';
 import { Main, Wrapper } from './styles/appStyles';
 
 /**s
@@ -210,11 +211,14 @@ export default class App extends Component {
                   listItems={listItems}
                 />
               </div>
-              <GoogleMap
-                hasMap={this.state.hasMap}
-                initMap={this.initMap}
-                venues={this.state.venues}
-              />
+              <div>
+                <GoogleMap
+                  hasMap={this.state.hasMap}
+                  initMap={this.initMap}
+                  venues={this.state.venues}
+                />
+                <Footer />
+              </div>
             </Main>
           </Wrapper>
         </ThemeProvider>
