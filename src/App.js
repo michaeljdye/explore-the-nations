@@ -195,7 +195,6 @@ export default class App extends Component {
    * Wrap component in ThemeProvider, so app has access to theme styles
    */
   render() {
-    console.log(this.state.markers);
     const { venue, listItems } = this.state;
     return (
       <>
