@@ -81,20 +81,19 @@ export default class App extends Component {
       return;
     }
 
-    if (!Object.keys(this.state.map).length) {
-      const mapCenter = { lat: 36.162177, lng: -86.849023 };
+    const mapCenter = { lat: 36.162177, lng: -86.849023 };
 
-      var map = new window.google.maps.Map(
-        window.document.getElementById('map'),
-        {
-          center: mapCenter,
-          zoom: 20
-        }
-      );
+    var map = new window.google.maps.Map(
+      window.document.getElementById('map'),
+      {
+        center: mapCenter,
+        zoom: 20
+      }
+    );
 
-      this.setState({ map });
-      this.setState(state => (state.markers.length = 0));
-    }
+    this.setState({ map });
+
+    this.setState(state => (state.markers.length = 0));
 
     const infoWindow = new window.google.maps.InfoWindow();
 
@@ -144,7 +143,7 @@ export default class App extends Component {
 
       const request = {
         query: name,
-        fields: ['rating', 'name', 'opening_hours', 'formatted_address'],
+        fields: ['rating', 'opening_hours', 'formatted_address'],
         locationBias: {
           lat: location.lat,
           lng: location.lng
@@ -157,7 +156,7 @@ export default class App extends Component {
       this.setState(state => state.markers.push([marker, name]));
     });
 
-    this.state.map.fitBounds(bounds);
+    map.fitBounds(bounds);
     this.setState({ hasMap: true });
   };
 
