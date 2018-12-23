@@ -53,7 +53,7 @@ export default class App extends Component {
           this.setState({
             venues: storedVenues.data.response.groups[0].items
           });
-          console.log(err);
+          console.log('Failed to connect to FourSquare API');
         });
     }
 
@@ -76,7 +76,10 @@ export default class App extends Component {
    * * Use Google Places Library to retrieve location data
    */
   initMap = (venues = this.state.venues) => {
-    if (!window.google) return;
+    if (!window.google) {
+      console.log('Failed to connect to Google Maps API');
+      return;
+    }
 
     const mapCenter = { lat: 36.162177, lng: -86.849023 };
 
