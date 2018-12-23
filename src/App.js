@@ -11,7 +11,6 @@ import { Main, Wrapper } from './styles/appStyles';
 
 /**s
  * @description React class component - inits maps, gets venues,
- * and filters list items and markers on search.
  */
 export default class App extends Component {
   state = {
@@ -25,8 +24,7 @@ export default class App extends Component {
 
   /**
    * @description Update state with retrieved venues.
-   * Then, call function to render Google Map.
-   * If error, render map with stored venues and log error.
+   * If error, init map with stored venues and log error.
    */
   componentDidMount() {
     if (this.state.venues.length === 0) {
@@ -57,7 +55,7 @@ export default class App extends Component {
    * @description Init Google Map and populate with venue markers.
    * Create info window and set event listener to add location-specific content.
    * Re-render with updated markers each time function is invoked.
-   * * Use Google Places Library to retrieve location data
+   * * Use Google Places Library to retrieve additional location data
    */
   initMap = (venues = this.state.venues) => {
     if (!window.google) {
@@ -193,7 +191,7 @@ export default class App extends Component {
 
   /**
    * @description Render app.
-   * Wrap in ThemeProvider, so app has access to theme styles
+   * Wrap component in ThemeProvider, so app has access to theme styles
    */
   render() {
     console.log(this.state.markers);
