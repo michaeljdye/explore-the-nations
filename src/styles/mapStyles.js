@@ -1,12 +1,12 @@
-import styled from 'styled-components';
-import { media } from './appStyles';
+import styled from "styled-components";
+import { media } from "./appStyles";
 
 export const GMap = styled.div`
   height: 100%;
 `;
 
 export const MapSection = styled.section`
-  height: 85rem;
+  height: 100%;
   margin: 0;
   padding: 0;
 
